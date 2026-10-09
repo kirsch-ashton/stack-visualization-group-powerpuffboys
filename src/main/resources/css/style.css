@@ -1,0 +1,18 @@
+
+/* Classes */
+
+.leftPanel {
+    -fx-background-color: #D8A2A2;
+    -fx-pref-width: 200px;
+    -fx-pref-height: 200px;
+}
+
+.rightPanel {
+    -fx-background-color: #D8A2A2;
+    -fx-pref-width: 200px;
+    -fx-pref-height: 200px;
+}
+
+.centerPanel {
+    -fx-background-color: lightgray;
+}

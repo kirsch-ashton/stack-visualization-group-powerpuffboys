@@ -7,23 +7,23 @@ public class Stack {
     private int top = -1; //Default value kay empty ang stack/array
 
     public void push(int value){
-        //To be implemented
+        //Add a top value in Stack
     }
 
     public int pop() {
-        //To be implemented
+        //Remove the top value of Stack
     }
 
     public int peek(){
-        //To be implemented
+        //Return the top value of Stack
     }
 
     public int getSize() {
-        //To be implemented
+        //Return size of Stack
     }
 
-    public int get(int index) {
-        //To be implemented
+    public int getValue(int index) {
+        //Return stack index like stack[index]
     }
 
     public boolean isFull(){
