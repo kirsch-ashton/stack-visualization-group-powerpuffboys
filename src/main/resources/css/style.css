@@ -16,3 +16,48 @@
 .centerPanel {
     -fx-background-color: lightgray;
 }
+
+.text-field {
+    -fx-max-width: 150px;
+}
+
+.button {
+    -fx-background-color: #F7ADAD;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 10px 20px;
+    -fx-pref-width: 110px;
+    -fx-alignment: center;
+    -fx-font-weight: bold;
+    -fx-font-family: "Segoe UI";
+}
+
+.button:hover {
+    -fx-background-color: #F29191;
+}
+
+.button:pressed {
+    -fx-background-color: #D96868;
+}
+
+.stack-box {
+    -fx-background-color: #B93636;
+    -fx-background-radius: 8px;
+
+    -fx-border-color: black;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+
+    -fx-max-width: 150px;
+    -fx-pref-height: 55px;
+}
+
+.stack-value {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: black;
+}
+
+.table-row-cell {
+    -fx-cell-size: 40px;
+}

@@ -91,14 +91,14 @@ public class StackApplication extends Application {
 
         //Push, pop, peek, clear, random
 
-        VBox Buttonbox = new VBox(20,pushbutton,popbutton,peekbutton,clearbutton,randombutton);
-        Buttonbox.setAlignment(Pos.CENTER);
+        VBox buttonBox = new VBox(20,field, pushbutton, popbutton, peekbutton, clearbutton, randombutton);
+        buttonBox.setAlignment(Pos.CENTER);
 
 
 
         BorderPane leftPanel = new BorderPane();
         BorderPane.setAlignment(title, Pos.CENTER);
-        leftPanel.setCenter(Buttonbox);
+        leftPanel.setCenter(buttonBox);
         leftPanel.setTop(title);
         return leftPanel;
     }
@@ -123,6 +123,8 @@ public class StackApplication extends Application {
         stackTable.getColumns().add(stackColumn);
 
         stackTable.setItems(data);
+        stackTable.setMaxWidth(300);
+        stackTable.setMaxHeight(600);
 
         ObservableList<dataTable> logs = FXCollections.observableArrayList(
                 new dataTable("PUSH", 10, "yey"),
@@ -135,7 +137,6 @@ public class StackApplication extends Application {
     }
 
     public BorderPane centerPanel(){
-        //Code
          BorderPane centerPanel = new BorderPane();
         Label title = new Label("Stack");
         stackBox.setAlignment(Pos.CENTER);
@@ -148,6 +149,9 @@ public class StackApplication extends Application {
             );
             box.getChildren().add(value);
             stackBox.getChildren().add(box);
+
+            box.getStyleClass().add("stack-box");
+            value.getStyleClass().add("stack-value");
         }
 
         centerPanel.setTop(title);
