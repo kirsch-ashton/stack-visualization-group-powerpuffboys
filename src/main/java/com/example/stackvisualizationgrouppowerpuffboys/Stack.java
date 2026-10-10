@@ -6,32 +6,72 @@ public class Stack {
     private int[] stack = new int[capacity];
     private int top = -1; //Default value kay empty ang stack/array
 
+//Add a top value in Stack
     public void push(int value){
-        //Add a top value in Stack
+    if(isFull()){
+        System.out.println("ERROR: Stack is Full");
+        return;
+    }
+        top++;
+        stack[top] = value;
     }
 
+//Remove the top value of Stack
     public int pop() {
-        //Remove the top value of Stack
+    if(isEmpty()){
+        System.out.println("ERROR: Stack is Empty");
+        return -1;
     }
 
+    int poppedValue = stack[top];
+    top--;
+    return poppedValue;
+    }
+
+//Return the top value of Stack
     public int peek(){
-        //Return the top value of Stack
+    if(top == -1){
+            System.out.println("ERROR: Stack is Empty");
+            return -1;
+        }
+    int topValue = stack[top];
+    return topValue;
     }
 
+//Return size of Stack
     public int getSize() {
-        //Return size of Stack
+    int stackSize = top + 1;
+    return stackSize;
     }
 
+//Return stack index like stack[index]
     public int getValue(int index) {
-        //Return stack index like stack[index]
+
+    if(index < 0 || index > top){
+        System.out.println("ERROR: Stack is EMPTY or Invalid Input");
+        return -1;
+    }
+    int currentValue = stack[index];
+    return currentValue;
     }
 
+//Returns true if stack is FULL, otherwise false
     public boolean isFull(){
-        //To be implemented
+    boolean stackFull;
+    if(top == capacity - 1){
+            stackFull = true;
+        }
+    else{stackFull = false;}
+    return stackFull;
     }
 
+//Returns true if stack is EMPTY, otherwise false
     public boolean isEmpty(){
-        //To be implemented
+    boolean stackEmpty;
+    if(top == -1){
+        stackEmpty = true;
+        }
+    else{stackEmpty = false;}
+    return stackEmpty;
     }
-
 }
