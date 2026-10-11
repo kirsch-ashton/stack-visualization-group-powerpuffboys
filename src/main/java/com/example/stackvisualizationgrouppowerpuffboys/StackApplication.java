@@ -70,7 +70,7 @@ public class StackApplication extends Application {
         root.setCenter(centerPanel);
         root.setRight(rightPanel);
 
-        Scene scene = new Scene(root, 800, 800);
+        Scene scene = new Scene(root, 900, 900);
         scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
 
         stage.setTitle("Stack Visualization");
