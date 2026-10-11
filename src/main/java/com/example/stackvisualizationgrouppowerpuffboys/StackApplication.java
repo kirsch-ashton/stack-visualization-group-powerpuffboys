@@ -65,7 +65,7 @@ public class StackApplication extends Application {
         root.setCenter(centerPanel);
         root.setRight(rightPanel);
 
-        Scene scene = new Scene(root, 800, 800);
+        Scene scene = new Scene(root, 900, 900);
         scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
 
         stage.setTitle("Stack Visualization");
@@ -75,6 +75,9 @@ public class StackApplication extends Application {
 
     public BorderPane leftPanel(){
         BorderPane leftPanel = new BorderPane();
+        BorderPane.setAlignment(title, Pos.CENTER);
+        leftPanel.setCenter(Buttonbox);
+        leftPanel.setTop(title);
         return leftPanel;
     }
 
@@ -111,7 +114,23 @@ public class StackApplication extends Application {
 
     public BorderPane centerPanel(){
         //Code
-        BorderPane centerPanel = new BorderPane();
+         BorderPane centerPanel = new BorderPane();
+        Label title = new Label("Stack");
+        stackBox.setAlignment(Pos.CENTER);
+
+        for(int i = stack.getSize() - 1; i >= 0; i--){
+            StackPane box = new StackPane();
+
+            Label value = new Label(
+                    String.valueOf(stack.get(i))
+            );
+            box.getChildren().add(value);
+            stackBox.getChildren().add(box);
+        }
+
+        centerPanel.setTop(title);
+        centerPanel.setCenter(stackBox);
+
         return centerPanel;
     }
 }
