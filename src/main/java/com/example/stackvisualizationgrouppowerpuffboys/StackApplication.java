@@ -9,6 +9,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class StackApplication extends Application {
+    private Stack stack = new Stack();
+    private VBox stackBox = new VBox(5);
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -49,7 +51,23 @@ public class StackApplication extends Application {
 
     public BorderPane centerPanel(){
         //Code
-        BorderPane centerPanel = new BorderPane();
+         BorderPane centerPanel = new BorderPane();
+        Label title = new Label("Stack");
+        stackBox.setAlignment(Pos.CENTER);
+
+        for(int i = stack.getSize() - 1; i >= 0; i--){
+            StackPane box = new StackPane();
+
+            Label value = new Label(
+                    String.valueOf(stack.get(i))
+            );
+            box.getChildren().add(value);
+            stackBox.getChildren().add(box);
+        }
+
+        centerPanel.setTop(title);
+        centerPanel.setCenter(stackBox);
+
         return centerPanel;
     }
 }
