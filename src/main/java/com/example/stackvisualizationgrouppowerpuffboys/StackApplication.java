@@ -5,8 +5,12 @@ import javafx.scene.control.Label;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.scene.layout.VBox;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Button;
 
 import java.io.IOException;
+import javafx.geometry.Pos;
 
 public class StackApplication extends Application {
     private Stack stack = new Stack();
@@ -28,7 +32,7 @@ public class StackApplication extends Application {
         root.setCenter(centerPanel);
         root.setRight(rightPanel);
 
-        Scene scene = new Scene(root, 800, 800);
+        Scene scene = new Scene(root, 900, 900);
         scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
 
         stage.setTitle("Stack Visualization");
@@ -37,9 +41,27 @@ public class StackApplication extends Application {
     }
 
     public BorderPane leftPanel(){
-        //Code
+        TextField field = new TextField();
+        Button pushbutton = new Button("Push");
+        Button popbutton = new Button("Pop");
+        Button peekbutton = new Button("Peek");
+        Button clearbutton = new Button("Clear");
+        Button randombutton = new Button("Random");
+        Label title = new Label("Stacks");
+        
+      
+        
+        //Push, pop, peek, clear, random
+        
+        VBox Buttonbox = new VBox(20,pushbutton,popbutton,peekbutton,clearbutton,randombutton);
+        Buttonbox.setAlignment(Pos.CENTER);
+        
 
+        
         BorderPane leftPanel = new BorderPane();
+        BorderPane.setAlignment(title, Pos.CENTER);
+        leftPanel.setCenter(Buttonbox);
+        leftPanel.setTop(title);
         return leftPanel;
     }
 
