@@ -1,5 +1,5 @@
 package com.example.stackvisualizationgrouppowerpuffboys;
-
+import javafx.geometry.Pos;
 import javafx.application.Application;
 import javafx.scene.control.Label;
 import javafx.scene.Scene;
@@ -14,8 +14,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.Pos;
+import javafx.scene.control.TextInputDialog;
+import java.util.Optional;
 import java.io.IOException;
+
 
 public class StackApplication extends Application {
     public static class dataTable{
@@ -172,3 +174,24 @@ public class StackApplication extends Application {
         }
     }
 }
+    public void capacitySelector(){
+        TextInputDialog dialog = new TextInputDialog("10"); // Default value
+        dialog.setTitle("Change Stack Capacity");
+        dialog.setHeaderText("Set a new maximum capacity for your stack:");
+        dialog.setContentText("Capacity:");
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent( input -> {
+            try {
+                int newCapacity = Integer.parseInt(input);
+                if (newCapacity > 0) {
+                    System.out.println("Updating stack capacity to:" + newCapacity);
+                } else {
+                    System.out.println("Capacity must be greater than 0.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a valid number.");
+            }
+        });
+    }
+    }
+
