@@ -119,7 +119,11 @@ public class StackApplication extends Application {
             peekActive = false;
         });
         //Push, pop, peek, clear, random
-
+        popbutton.setOnAction( event -> {
+            checkStack();
+            int num = stack.pop();
+            refreshStackDisplay();
+        });
         randombutton.setOnAction(event ->{
             pressedRandom = true;
             refreshStackDisplay(); 
@@ -254,5 +258,9 @@ public class StackApplication extends Application {
 
     public void addData(String operation, int value){
         data.add(new dataTable(operation, value));
+    }
+    public void checkStack(){
+        if(stack.isFull()){ statusMessage.setText("STACK OVERFLOW: Stack is full"); }
+        if(stack.isEmpty()) {statusMessage.setText("STACK UNDERFLOW: Stack is empty"); }
     }
 }
