@@ -61,6 +61,7 @@ public class StackApplication extends Application {
     private VBox stackBox = new VBox(5);
     private Label statusMessage = new Label();
     private boolean pressedRandom = false;
+    private boolean peekActive = false;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -110,7 +111,12 @@ public class StackApplication extends Application {
                 System.out.println("Enter a number");
             }
         });
-
+        peekbutton.setOnAction(event ->{
+            stack.peek();
+            peekActive = true;
+            refreshStackDisplay();
+            peekActive = false;
+        });
         //Push, pop, peek, clear, random
 
         
@@ -170,6 +176,7 @@ public class StackApplication extends Application {
 
     public void refreshStackDisplay(){
         stackBox.getChildren().clear();
+
         for (int i = stack.getSize() - 1; i >= 0; i--) {
             StackPane box = new StackPane();
             Label value;
@@ -183,6 +190,14 @@ public class StackApplication extends Application {
                         String.valueOf(stack.getValue(i))
                 );
             }
+            if (peekActive) {
+                if (i == stack.getSize() - 1){
+                    box.getStyleClass().add("stack-top");
+                } else {
+                    box.getStyleClass().add("stack-below");
+                }
+            }
+
             box.getChildren().add(value);
 
             box.getStyleClass().add("stack-box");
