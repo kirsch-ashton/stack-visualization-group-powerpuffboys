@@ -40,8 +40,8 @@ public class Stack {
 
 //Return size of Stack
     public int getSize() {
-    int stackSize = top + 1;
-    return stackSize;
+        int stackSize = top + 1;
+        return stackSize;
     }
 
 //Return stack index like stack[index]

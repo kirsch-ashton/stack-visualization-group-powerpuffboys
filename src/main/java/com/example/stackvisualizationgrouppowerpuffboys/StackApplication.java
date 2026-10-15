@@ -5,6 +5,10 @@ import javafx.scene.control.Label;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -15,8 +19,6 @@ import java.io.IOException;
 import java.util.Stack;
 
 public class StackApplication extends Application {
-    ObservableList<dataTable> data = FXCollections.observableArrayList();
-
     public static class dataTable{
         String operation;
         int value;
@@ -48,6 +50,9 @@ public class StackApplication extends Application {
             stack = x;
         }
     }
+    ObservableList<dataTable> data = FXCollections.observableArrayList();
+    private Stack stack = new Stack();
+    private VBox stackBox = new VBox(5);
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -74,9 +79,26 @@ public class StackApplication extends Application {
     }
 
     public BorderPane leftPanel(){
+        TextField field = new TextField();
+        Button pushbutton = new Button("Push");
+        Button popbutton = new Button("Pop");
+        Button peekbutton = new Button("Peek");
+        Button clearbutton = new Button("Clear");
+        Button randombutton = new Button("Random");
+        Label title = new Label("Stacks");
+
+
+
+        //Push, pop, peek, clear, random
+
+        VBox buttonBox = new VBox(20,field, pushbutton, popbutton, peekbutton, clearbutton, randombutton);
+        buttonBox.setAlignment(Pos.CENTER);
+
+
+
         BorderPane leftPanel = new BorderPane();
         BorderPane.setAlignment(title, Pos.CENTER);
-        leftPanel.setCenter(Buttonbox);
+        leftPanel.setCenter(buttonBox);
         leftPanel.setTop(title);
         return leftPanel;
     }
@@ -101,6 +123,8 @@ public class StackApplication extends Application {
         stackTable.getColumns().add(stackColumn);
 
         stackTable.setItems(data);
+        stackTable.setMaxWidth(300);
+        stackTable.setMaxHeight(600);
 
         ObservableList<dataTable> logs = FXCollections.observableArrayList(
                 new dataTable("PUSH", 10, "yey"),
@@ -113,7 +137,6 @@ public class StackApplication extends Application {
     }
 
     public BorderPane centerPanel(){
-        //Code
          BorderPane centerPanel = new BorderPane();
         Label title = new Label("Stack");
         stackBox.setAlignment(Pos.CENTER);
@@ -122,10 +145,13 @@ public class StackApplication extends Application {
             StackPane box = new StackPane();
 
             Label value = new Label(
-                    String.valueOf(stack.get(i))
+                    String.valueOf(stack.getValue(i))
             );
             box.getChildren().add(value);
             stackBox.getChildren().add(box);
+
+            box.getStyleClass().add("stack-box");
+            value.getStyleClass().add("stack-value");
         }
 
         centerPanel.setTop(title);
