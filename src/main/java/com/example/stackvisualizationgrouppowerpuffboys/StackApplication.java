@@ -91,10 +91,10 @@ public class StackApplication extends Application {
 
         //Push, pop, peek, clear, random
 
+        
+
         VBox buttonBox = new VBox(20,field, pushbutton, popbutton, peekbutton, clearbutton, randombutton);
         buttonBox.setAlignment(Pos.CENTER);
-
-
 
         BorderPane leftPanel = new BorderPane();
         BorderPane.setAlignment(title, Pos.CENTER);
@@ -103,6 +103,14 @@ public class StackApplication extends Application {
         return leftPanel;
 
         
+    }
+    // Clear Button
+    public void isClearPressed(){
+        stackBox.getChildren().clear();
+        for(int i = stack.getSize() - 1; i >= 0; i--){
+            stack.pop();
+        }
+
     }
 
     public BorderPane rightPanel(){
