@@ -60,7 +60,7 @@ public class StackApplication extends Application {
     private Stack stack = new Stack();
     private VBox stackBox = new VBox(5);
     private Label statusMessage = new Label();
-    
+    private boolean pressedRandom = false;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -168,19 +168,28 @@ public class StackApplication extends Application {
         return centerPanel;
     }
 
-    void refreshStackDisplay() {
+    public void refreshStackDisplay(){
         stackBox.getChildren().clear();
-        for(int i = stack.getSize() - 1; i >= 0; i--){
+        for (int i = stack.getSize() - 1; i >= 0; i--) {
             StackPane box = new StackPane();
+            Label value;
 
-            Label value = new Label(
-                    String.valueOf(stack.getValue(i))
-            );
+            if(pressedRandom){
+                value = new Label(
+                        String.valueOf((int)(Math.random() * (100 + 1)))
+                );
+            } else {
+                value = new Label(
+                        String.valueOf(stack.getValue(i))
+                );
+            }
             box.getChildren().add(value);
-            stackBox.getChildren().add(box);
 
             box.getStyleClass().add("stack-box");
             value.getStyleClass().add("stack-value");
+            
+
+            stackBox.getChildren().add(box);
         }
     }
 
