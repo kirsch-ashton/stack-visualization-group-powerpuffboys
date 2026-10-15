@@ -1,22 +1,23 @@
 package com.example.stackvisualizationgrouppowerpuffboys;
-import javafx.geometry.Pos;
+import java.io.IOException;
+import java.util.Optional;
+
 import javafx.application.Application;
-import javafx.scene.control.Label;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
-import javafx.scene.layout.VBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
-import java.util.Optional;
-import java.io.IOException;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 
 public class StackApplication extends Application {
@@ -119,7 +120,11 @@ public class StackApplication extends Application {
         });
         //Push, pop, peek, clear, random
 
-        
+        randombutton.setOnAction(event ->{
+            pressedRandom = true;
+            refreshStackDisplay(); 
+            pressedRandom = false;
+        });
 
         VBox buttonBox = new VBox(20,field, pushbutton, popbutton, peekbutton, clearbutton, randombutton, checkButton, capacityButton);
         buttonBox.setAlignment(Pos.CENTER);
@@ -251,4 +256,3 @@ public class StackApplication extends Application {
         data.add(new dataTable(operation, value));
     }
 }
-
