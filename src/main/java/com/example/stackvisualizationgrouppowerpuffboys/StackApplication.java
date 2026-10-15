@@ -173,7 +173,7 @@ public class StackApplication extends Application {
             value.getStyleClass().add("stack-value");
         }
     }
-}
+
     public void capacitySelector(){
         TextInputDialog dialog = new TextInputDialog("10"); // Default value
         dialog.setTitle("Change Stack Capacity");
@@ -193,5 +193,5 @@ public class StackApplication extends Application {
             }
         });
     }
-    }
+}
 
