@@ -2,7 +2,7 @@ package com.example.stackvisualizationgrouppowerpuffboys;
 
 // Stack Data and Logic
 public class Stack {
-    private final int capacity = 10;
+    private int capacity = 10;
     private int[] stack = new int[capacity];
     private int top = -1; //Default value kay empty ang stack/array
 
@@ -73,5 +73,8 @@ public class Stack {
         }
     else{stackEmpty = false;}
     return stackEmpty;
+    }
+    public void setCapacity(int capacity){
+        this.capacity = capacity;
     }
 }
