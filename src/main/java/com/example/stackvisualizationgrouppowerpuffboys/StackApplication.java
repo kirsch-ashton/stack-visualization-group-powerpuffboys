@@ -66,6 +66,7 @@ public class StackApplication extends Application {
         rightPanel.getStyleClass().add("rightPanel");
         centerPanel.getStyleClass().add("centerPanel");
 
+        // comment
         BorderPane root = new BorderPane();
         root.setLeft(leftPanel);
         root.setCenter(centerPanel);
@@ -92,16 +93,26 @@ public class StackApplication extends Application {
 
         //Push, pop, peek, clear, random
 
+        
+
         VBox buttonBox = new VBox(20,field, pushbutton, popbutton, peekbutton, clearbutton, randombutton);
         buttonBox.setAlignment(Pos.CENTER);
-
-
 
         BorderPane leftPanel = new BorderPane();
         BorderPane.setAlignment(title, Pos.CENTER);
         leftPanel.setCenter(buttonBox);
         leftPanel.setTop(title);
         return leftPanel;
+
+
+    }
+    // Clear Button
+    public void isClearPressed(){
+        stackBox.getChildren().clear();
+        for(int i = stack.getSize() - 1; i >= 0; i--){
+            stack.pop();
+        }
+
     }
 
     public BorderPane rightPanel(){
@@ -138,10 +149,17 @@ public class StackApplication extends Application {
     }
 
     public BorderPane centerPanel(){
-         BorderPane centerPanel = new BorderPane();
+        BorderPane centerPanel = new BorderPane();
         Label title = new Label("Stack");
         stackBox.setAlignment(Pos.CENTER);
 
+        centerPanel.setTop(title);
+        centerPanel.setCenter(stackBox);
+
+        return centerPanel;
+    }
+
+    void refreshStackDisplay() {
         for(int i = stack.getSize() - 1; i >= 0; i--){
             StackPane box = new StackPane();
 
@@ -154,12 +172,8 @@ public class StackApplication extends Application {
             box.getStyleClass().add("stack-box");
             value.getStyleClass().add("stack-value");
         }
-
-        centerPanel.setTop(title);
-        centerPanel.setCenter(stackBox);
-
-        return centerPanel;
     }
+}
     public void capacitySelector(){
         TextInputDialog dialog = new TextInputDialog("10"); // Default value
         dialog.setTitle("Change Stack Capacity");
