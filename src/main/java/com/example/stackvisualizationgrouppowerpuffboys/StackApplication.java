@@ -60,6 +60,7 @@ public class StackApplication extends Application {
         rightPanel.getStyleClass().add("rightPanel");
         centerPanel.getStyleClass().add("centerPanel");
 
+        // comment
         BorderPane root = new BorderPane();
         root.setLeft(leftPanel);
         root.setCenter(centerPanel);
@@ -79,6 +80,8 @@ public class StackApplication extends Application {
         leftPanel.setCenter(Buttonbox);
         leftPanel.setTop(title);
         return leftPanel;
+
+        
     }
 
     public BorderPane rightPanel(){
