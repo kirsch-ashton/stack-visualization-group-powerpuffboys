@@ -16,7 +16,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.io.IOException;
-import javafx.geometry.Pos;
+import java.util.Stack;
 
 public class StackApplication extends Application {
     public static class dataTable{
