@@ -59,9 +59,9 @@ public class StackApplication extends Application {
     ObservableList<dataTable> data = FXCollections.observableArrayList();
     private Stack stack = new Stack();
     private VBox stackBox = new VBox(5);
-    Label statusMessage = new Label();
+    private Label statusMessage = new Label();
     
-    
+
     @Override
     public void start(Stage stage) throws IOException {
         BorderPane leftPanel = leftPanel();
@@ -94,12 +94,15 @@ public class StackApplication extends Application {
         Button peekbutton = new Button("Peek");
         Button clearbutton = new Button("Clear");
         Button randombutton = new Button("Random");
+        Button checkButton = new Button("Check");
+        Button capacityButton = new Button("Capacity");
         Label title = new Label("Stacks");
-
+        title.getStyleClass().add("lp-title");
 
         pushbutton.setOnAction(event -> {
             try{
                 int fieldValue = Integer.parseInt(field.getText());
+                field.clear();
                 stack.push(fieldValue);
                 addData(pushbutton.getText(),  fieldValue);
                 refreshStackDisplay();
@@ -112,7 +115,7 @@ public class StackApplication extends Application {
 
         
 
-        VBox buttonBox = new VBox(20,field, pushbutton, popbutton, peekbutton, clearbutton, randombutton);
+        VBox buttonBox = new VBox(20,field, pushbutton, popbutton, peekbutton, clearbutton, randombutton, checkButton, capacityButton);
         buttonBox.setAlignment(Pos.CENTER);
 
         BorderPane leftPanel = new BorderPane();
@@ -120,33 +123,11 @@ public class StackApplication extends Application {
         leftPanel.setCenter(buttonBox);
         leftPanel.setTop(title);
         return leftPanel;
-
-
-    }
-    
-    public void isCheckPressed(){
-    
-     if(stack.isEmpty()){
-        statusMessage.setText("The stack is Empty!");    
-     }   
-     else{
-      statusMessage.setText("The stack is not Empty!");
-     }      
-    }
-    
-    // Clear Button
-    public void isClearPressed(){
-        stackBox.getChildren().clear();
-        for(int i = stack.getSize() - 1; i >= 0; i--){
-            stack.pop();
-        }
-
     }
 
     public BorderPane rightPanel(){
-        //Code
         BorderPane rightPanel = new BorderPane();
-        rightPanel.setTop(new Label("Operation History"));
+        Label rpTitle = new Label("Operation History");
         TableView<dataTable> stackTable = new TableView<>();
 
         TableColumn<dataTable, String> operationColumn = new TableColumn<>("Operation");
@@ -164,9 +145,15 @@ public class StackApplication extends Application {
 
         stackTable.setItems(data);
         stackTable.setMaxWidth(300);
-        stackTable.setMaxHeight(600);
+        stackTable.setMaxHeight(500);
 
         rightPanel.setCenter(stackTable);
+        rightPanel.setBottom(statusMessage);
+        rightPanel.setTop(rpTitle);
+        statusMessage.setStyle("-fx-translate-y: -80px");
+        rpTitle.setStyle("-fx-translate-y: 80px");
+        BorderPane.setAlignment(statusMessage, Pos.CENTER);
+        BorderPane.setAlignment(rpTitle, Pos.CENTER);
         return rightPanel;
     }
 
@@ -197,11 +184,30 @@ public class StackApplication extends Application {
         }
     }
 
+    public void isCheckPressed(){
+        if(stack.isEmpty()){
+            statusMessage.setText("The stack is Empty!");
+        }
+        else{
+            statusMessage.setText("The stack is not Empty!");
+        }
+    }
+
+    // Clear Button
+    public void isClearPressed(){
+        stackBox.getChildren().clear();
+        for(int i = stack.getSize() - 1; i >= 0; i--){
+            stack.pop();
+        }
+
+    }
+
     public void capacitySelector(){
         TextInputDialog dialog = new TextInputDialog("10"); // Default value
         dialog.setTitle("Change Stack Capacity");
         dialog.setHeaderText("Set a new maximum capacity for your stack:");
         dialog.setContentText("Capacity:");
+        dialog.setGraphic(null);
         Optional<String> result = dialog.showAndWait();
         result.ifPresent( input -> {
             try {
