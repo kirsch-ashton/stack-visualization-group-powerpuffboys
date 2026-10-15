@@ -102,7 +102,7 @@ public class StackApplication extends Application {
         leftPanel.setTop(title);
         return leftPanel;
 
-        
+
     }
     // Clear Button
     public void isClearPressed(){
@@ -147,7 +147,7 @@ public class StackApplication extends Application {
     }
 
     public BorderPane centerPanel(){
-         BorderPane centerPanel = new BorderPane();
+        BorderPane centerPanel = new BorderPane();
         Label title = new Label("Stack");
         stackBox.setAlignment(Pos.CENTER);
 
