@@ -40,7 +40,7 @@ public class StackApplication extends Application {
         String getStack(){
             return this.stack;
         }
-
+        
         void setOperation(String x){
             operation = x;
         }
@@ -54,7 +54,10 @@ public class StackApplication extends Application {
     ObservableList<dataTable> data = FXCollections.observableArrayList();
     private Stack stack = new Stack();
     private VBox stackBox = new VBox(5);
-
+    
+    Label statusMessage = new Label();
+    
+    
     @Override
     public void start(Stage stage) throws IOException {
         BorderPane leftPanel = leftPanel();
@@ -106,6 +109,17 @@ public class StackApplication extends Application {
 
 
     }
+    
+    public void isCheckPressed(){
+    
+     if(stack.isEmpty()){
+        statusMessage.setText("The stack is Empty!");    
+     }   
+     else{
+      statusMessage.setText("The stack is not Empty!");
+     }      
+    }
+    
     // Clear Button
     public void isClearPressed(){
         stackBox.getChildren().clear();
