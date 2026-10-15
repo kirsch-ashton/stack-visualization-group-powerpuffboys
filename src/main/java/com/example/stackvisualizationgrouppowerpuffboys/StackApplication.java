@@ -31,30 +31,34 @@ public class StackApplication extends Application {
             this.stack = stack;
         }
 
-        String getOperation(){
+        public dataTable(String operation, int value){
+            this.operation = operation;
+            this.value = value;
+        }
+
+        public String getOperation(){
             return this.operation;
         }
-        int getValue(){
+        public int getValue(){
             return this.value;
         }
-        String getStack(){
+        public String getStack(){
             return this.stack;
         }
         
-        void setOperation(String x){
+        public void setOperation(String x){
             operation = x;
         }
-        void setValue(int x){
+        public void setValue(int x){
             value = x;
         }
-        void setStack(String x){
+        public void setStack(String x){
             stack = x;
         }
     }
     ObservableList<dataTable> data = FXCollections.observableArrayList();
     private Stack stack = new Stack();
     private VBox stackBox = new VBox(5);
-    
     Label statusMessage = new Label();
     
     
@@ -75,7 +79,7 @@ public class StackApplication extends Application {
         root.setCenter(centerPanel);
         root.setRight(rightPanel);
 
-        Scene scene = new Scene(root, 900, 900);
+        Scene scene = new Scene(root, 900, 700);
         scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
 
         stage.setTitle("Stack Visualization");
@@ -93,6 +97,16 @@ public class StackApplication extends Application {
         Label title = new Label("Stacks");
 
 
+        pushbutton.setOnAction(event -> {
+            try{
+                int fieldValue = Integer.parseInt(field.getText());
+                stack.push(fieldValue);
+                addData(pushbutton.getText(),  fieldValue);
+                refreshStackDisplay();
+            } catch (NumberFormatException e){
+                System.out.println("Enter a number");
+            }
+        });
 
         //Push, pop, peek, clear, random
 
@@ -152,12 +166,6 @@ public class StackApplication extends Application {
         stackTable.setMaxWidth(300);
         stackTable.setMaxHeight(600);
 
-        ObservableList<dataTable> logs = FXCollections.observableArrayList(
-                new dataTable("PUSH", 10, "yey"),
-                new dataTable("PUSH", 20, "no")
-        );
-        stackTable.setItems(logs);
-
         rightPanel.setCenter(stackTable);
         return rightPanel;
     }
@@ -174,6 +182,7 @@ public class StackApplication extends Application {
     }
 
     void refreshStackDisplay() {
+        stackBox.getChildren().clear();
         for(int i = stack.getSize() - 1; i >= 0; i--){
             StackPane box = new StackPane();
 
@@ -206,6 +215,10 @@ public class StackApplication extends Application {
                 System.out.println("Please enter a valid number.");
             }
         });
+    }
+
+    public void addData(String operation, int value){
+        data.add(new dataTable(operation, value));
     }
 }
 
