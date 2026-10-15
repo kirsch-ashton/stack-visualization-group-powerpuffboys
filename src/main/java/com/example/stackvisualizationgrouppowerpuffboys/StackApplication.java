@@ -14,9 +14,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
+import javafx.geometry.Pos;
 import java.io.IOException;
-import java.util.Stack;
 
 public class StackApplication extends Application {
     public static class dataTable{
@@ -141,6 +140,13 @@ public class StackApplication extends Application {
         Label title = new Label("Stack");
         stackBox.setAlignment(Pos.CENTER);
 
+        centerPanel.setTop(title);
+        centerPanel.setCenter(stackBox);
+
+        return centerPanel;
+    }
+
+    void refreshStackDisplay() {
         for(int i = stack.getSize() - 1; i >= 0; i--){
             StackPane box = new StackPane();
 
@@ -153,10 +159,5 @@ public class StackApplication extends Application {
             box.getStyleClass().add("stack-box");
             value.getStyleClass().add("stack-value");
         }
-
-        centerPanel.setTop(title);
-        centerPanel.setCenter(stackBox);
-
-        return centerPanel;
     }
 }
