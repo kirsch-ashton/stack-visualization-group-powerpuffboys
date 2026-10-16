@@ -118,6 +118,14 @@ public class StackApplication extends Application {
             refreshStackDisplay();
             peekActive = false;
         });
+        
+        checkButton.setOnAction(event ->{
+         isCheckPressed();
+         
+        });
+        
+    
+        
         //Push, pop, peek, clear, random
         popbutton.setOnAction( event -> {
             checkStack();
