@@ -137,6 +137,9 @@ public class StackApplication extends Application {
             refreshStackDisplay(); 
             pressedRandom = false;
         });
+        clearbutton.setOnAction(event ->{
+            isClearPressed();
+        });
 
         VBox buttonBox = new VBox(20,field, pushbutton, popbutton, peekbutton, clearbutton, randombutton, checkButton, capacityButton);
         buttonBox.setAlignment(Pos.CENTER);
