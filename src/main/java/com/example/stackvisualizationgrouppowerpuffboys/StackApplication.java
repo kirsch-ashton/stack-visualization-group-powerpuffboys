@@ -64,7 +64,6 @@ public class StackApplication extends Application {
     private boolean pressedRandom = false;
     private boolean peekActive = false;
 
-    private boolean pressedRandom;
     void setRandom(boolean x){this.pressedRandom = x;}
     // void setRandom(boolean x){this.setRandom(x);}
     // ^ the line above this will cause a infinite recursion, so kung mao ni, uncomment nalang if so.

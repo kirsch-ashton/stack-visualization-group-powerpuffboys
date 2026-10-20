@@ -96,6 +96,24 @@ public class Stack {
          peek();  
          break;    
        
+        case "Clear":
+            SA.isClearPressed();
+            break;
+
+        case "Random":
+            SA.setRandom(true);
+            SA.isClearPressed();
+            SA.setRandom(false);
+            break;
+
+        case "Check":
+            SA.checkStack();
+            break;
+
+        case "Capacity":
+            SA.capacitySelector();
+            break;
+
        }   
     }
 }
