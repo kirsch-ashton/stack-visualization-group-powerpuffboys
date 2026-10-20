@@ -1,11 +1,12 @@
 package com.example.stackvisualizationgrouppowerpuffboys;
-
+import javafx.scene.control.Button;
 // Stack Data and Logic
 public class Stack {
     private int capacity = 10;
     private int[] stack = new int[capacity];
     private int top = -1; //Default value kay empty ang stack/array
-
+    private int previousValue;
+    
 //Add a top value in Stack
     public void push(int value){
     if(isFull()){
@@ -76,5 +77,25 @@ public class Stack {
     }
     public void setCapacity(int capacity){
         this.capacity = capacity;
+    }
+    
+    public void undoOperation(Button button){
+    StackApplication SA = new StackApplication();
+        
+       switch(button.getText()){
+        
+       case "Push":   
+         push(previousValue);  
+         break;    
+           
+       case "Pop":
+         int num = pop();  
+         break;    
+      
+       case "Peek":
+         peek();  
+         break;    
+       
+       }   
     }
 }
