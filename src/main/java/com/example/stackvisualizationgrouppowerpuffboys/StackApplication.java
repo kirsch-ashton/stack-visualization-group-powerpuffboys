@@ -64,6 +64,11 @@ public class StackApplication extends Application {
     private boolean pressedRandom = false;
     private boolean peekActive = false;
 
+    private boolean random;
+    void setRandom(boolean x){this.random = x;}
+    // void setRandom(boolean x){this.setRandom(x);}
+    // ^ the line above this will cause a infinite recursion, so kung mao ni, uncomment nalang if so.
+
     @Override
     public void start(Stage stage) throws IOException {
         BorderPane leftPanel = leftPanel();
