@@ -128,8 +128,10 @@ public class StackApplication extends Application {
          isCheckPressed();
          
         });
-        
-    
+
+        capacityButton.setOnAction(event -> {
+            capacitySelector();
+        });
         
         //Push, pop, peek, clear, random
         popbutton.setOnAction( event -> {
