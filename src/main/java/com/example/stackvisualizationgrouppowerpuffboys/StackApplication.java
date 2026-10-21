@@ -63,6 +63,7 @@ public class StackApplication extends Application {
     private Label statusMessage = new Label();
     private boolean pressedRandom = false;
     private boolean peekActive = false;
+    public void setPeekActive(boolean x){ this.peekActive = x; }
 
     void setRandom(boolean x){this.pressedRandom = x;}
     // void setRandom(boolean x){this.setRandom(x);}
