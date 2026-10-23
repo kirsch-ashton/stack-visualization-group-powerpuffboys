@@ -2,15 +2,18 @@
 /* Classes */
 
 .leftPanel {
-    -fx-background-color: #D8A2A2;
-    -fx-pref-width: 200px;
+    -fx-background-color: #76C0EC;
+    -fx-pref-width: 350px;
     -fx-pref-height: 200px;
+    
+    
+    
 }
 
 .lp-title {
     -fx-translate-y: 80px;
     -fx-font-weight: bold;
-    -fx-font-size: 26px;
+    -fx-font-size: 32px;
     -fx-font-family: "Serif";
 }
 
@@ -29,11 +32,11 @@
 }
 
 .button {
-    -fx-background-color: #F7ADAD;
+    -fx-background-color: #65D0F4;
     -fx-text-fill: white;
     -fx-font-size: 14px;
     -fx-padding: 10px 20px;
-    -fx-pref-width: 110px;
+    -fx-pref-width: 130px;
     -fx-alignment: center;
     -fx-font-weight: bold;
     -fx-font-family: "Segoe UI";
