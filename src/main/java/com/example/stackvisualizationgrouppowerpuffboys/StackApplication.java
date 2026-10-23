@@ -64,7 +64,7 @@ public class StackApplication extends Application {
     private boolean pressedRandom = false;
     private boolean peekActive = false;
     public void setPeekActive(boolean x){ this.peekActive = x; }
-
+    private Button lastButtonPressed;
     void setRandom(boolean x){this.pressedRandom = x;}
     // void setRandom(boolean x){this.setRandom(x);}
     // ^ the line above this will cause a infinite recursion, so kung mao ni, uncomment nalang if so.
@@ -103,6 +103,7 @@ public class StackApplication extends Application {
         Button randombutton = new Button("Random");
         Button checkButton = new Button("Check");
         Button capacityButton = new Button("Capacity");
+        Button undo = new Button("Undo");
         Label title = new Label("Stacks");
         title.getStyleClass().add("lp-title");
 
@@ -147,7 +148,9 @@ public class StackApplication extends Application {
         clearbutton.setOnAction(event ->{
             isClearPressed();
         });
-
+        undo.setOnAction(event -> {
+            stack.undoOperation(lastButtonPressed);
+        });
         VBox buttonBox = new VBox(20,field, pushbutton, popbutton, peekbutton, clearbutton, randombutton, checkButton, capacityButton);
         buttonBox.setAlignment(Pos.CENTER);
 
