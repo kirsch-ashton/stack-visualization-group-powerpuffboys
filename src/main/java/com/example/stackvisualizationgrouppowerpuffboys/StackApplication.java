@@ -213,24 +213,29 @@ public class StackApplication extends Application {
     public BorderPane rightPanel(){
         BorderPane rightPanel = new BorderPane();
         Label rpTitle = new Label("Operation History");
+        rpTitle.getStyleClass().add("rp-title");
         statusMessage = new Label("Status Message: Waiting for inputs...");
         statusMessage.getStyleClass().add("status-message");
         statusMessage.setWrapText(true);
         TableView<dataTable> stackTable = new TableView<>();
+        stackTable.setStyle("-fx-translate-y: 7px");
 
         TableColumn<dataTable, String> operationColumn = new TableColumn<>("Operation");
         operationColumn.setCellValueFactory(new PropertyValueFactory<>("operation"));
+        operationColumn.getStyleClass().add("operation-header");
 
         TableColumn<dataTable, String> valueColumn = new TableColumn<>("Value");
         valueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
+        valueColumn.getStyleClass().add("value-header");
 
         TableColumn<dataTable, String> stackColumn = new TableColumn<>("Stack");
         stackColumn.setCellValueFactory(new PropertyValueFactory<>("stack"));
+        stackColumn.getStyleClass().add("stack-header");
 
         stackTable.getColumns().add(operationColumn);
         stackTable.getColumns().add(valueColumn);
         stackTable.getColumns().add(stackColumn);
-
+        stackTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
         stackTable.setItems(data);
         stackTable.setMaxWidth(300);
         stackTable.setMaxHeight(500);
@@ -269,6 +274,7 @@ public class StackApplication extends Application {
                     box.getStyleClass().add("stack-top");
                 } else {
                     box.getStyleClass().add("stack-below");
+                    value.getStyleClass().add("stack-peek-value");
                 }
             }
 
