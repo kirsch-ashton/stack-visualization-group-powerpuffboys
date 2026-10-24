@@ -5,28 +5,29 @@ public class Stack {
     private int capacity = 10;
     private int[] stack = new int[capacity];
     private int top = -1; //Default value kay empty ang stack/array
-    private int previousValue;
+    private int previousPushValue;
     
 //Add a top value in Stack
     public void push(int value){
-    if(isFull()){
-        System.out.println("ERROR: Stack is Full");
-        return;
-    }
+        previousPushValue = value;
+        if(isFull()){
+            System.out.println("ERROR: Stack is Full");
+            return;
+        }
         top++;
         stack[top] = value;
     }
 
 //Remove the top value of Stack
     public int pop() {
-    if(isEmpty()){
-        System.out.println("ERROR: Stack is Empty");
-        return -1;
-    }
+        if(isEmpty()){
+            System.out.println("ERROR: Stack is Empty");
+            return -1;
+        }
 
-    int poppedValue = stack[top];
-    top--;
-    return poppedValue;
+        int poppedValue = stack[top];
+        top--;
+        return poppedValue;
     }
 
 //Return the top value of Stack
@@ -79,41 +80,59 @@ public class Stack {
         this.capacity = capacity;
     }
     
-    public void undoOperation(Button button){
-    StackApplication SA = new StackApplication();
-        
-       switch(button.getText()){
-        
-       case "Push":   
-         push(previousValue);  
-         break;    
-           
-       case "Pop":
-         int num = pop();  
-         break;    
-      
-       case "Peek":
-         peek();  
-         break;    
-       
-        case "Clear":
-            SA.isClearPressed();
-            break;
+    public void undoOperation(Button button, StackApplication SA){
+        switch(button.getText()){
+            case "Push":
+                push(previousPushValue);
+                SA.addData(button.getText(), previousPushValue);
+                break;
 
-        case "Random":
-            SA.setRandom(true);
-            SA.isClearPressed();
-            SA.setRandom(false);
-            break;
+            case "Pop":
+                int num = pop();
+                SA.addData(button.getText(), num);
+                break;
 
-        case "Check":
-            SA.checkStack();
-            break;
+            case "Peek":
+                peek();
+                SA.addData(button.getText());
+                break;
 
-        case "Capacity":
-            SA.capacitySelector();
-            break;
+            case "Clear":
+                SA.isClearPressed();
+                SA.addData(button.getText());
+                break;
 
-       }   
+            case "Random":
+                SA.setRandom(true);
+                SA.isClearPressed();
+                SA.setRandom(false);
+                SA.addData(button.getText());
+                break;
+
+            case "Check":
+                SA.checkStack();
+                SA.addData(button.getText());
+                break;
+
+            case "Capacity":
+                SA.capacitySelector();
+                SA.addData(button.getText());
+                break;
+        }
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder("[");
+
+        for (int i = 0; i <= top; i++) {
+            result.append(stack[i]);
+
+            if (i < top) {
+                result.append(", ");
+            }
+        }
+        result.append("]");
+        return result.toString();
     }
 }
