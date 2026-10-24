@@ -1,13 +1,24 @@
 
-/* Classes */
+/* Description: Defines the appearance and styling of the GUI panels, buttons, and stack elements.
+    Programmed by: PowerPuff Boys BSIT 48079 Data Structures and Algorithms
+    Last Modified: 10/24/2026
+    [Acknowledgements:
+    https://jenkov.com/tutorials/javafx/index.html
+    https://dev.java/learn/javafx/core/layout/
+    https://www.tutorialspoint.com/javafx/index.htm
+    https://www.geeksforgeeks.org/java/javafx-tutorial/
+
+        ChatGPT:
+        "List all possible JavaFX css properties"
+        Answered: Listed commonly used css properties
+
+    ]
+ */
 
 .leftPanel {
     -fx-background-color: #76C0EC;
     -fx-pref-width: 350px;
     -fx-pref-height: 200px;
-    
-    
-    
 }
 
 .lp-title {
@@ -21,6 +32,11 @@
     -fx-background-color: #D8A2A2;
     -fx-pref-width: 350px;
     -fx-pref-height: 200px;
+}
+
+.status-message{
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
 }
 
 .centerPanel {

@@ -1,7 +1,23 @@
 package com.example.stackvisualizationgrouppowerpuffboys;
+
+/* Description: Handles the JavaFX GUI, button events, stack visualization, operation history, and status messages.
+    Programmed by: PowerPuff Boys BSIT 48079 Data Structures and Algorithms
+    Last Modified: 10/24/2026
+    [Acknowledgements:
+    https://jenkov.com/tutorials/javafx/index.html
+    https://dev.java/learn/javafx/core/layout/
+    https://www.tutorialspoint.com/javafx/index.htm
+    https://www.geeksforgeeks.org/java/javafx-tutorial/
+
+        ChatGPT:
+        "What JavaFX classes can I use to store/display user actions, values, and stack?"
+        Answered:
+        TableView and it's related classes
+    ]
+ */
+
 import java.io.IOException;
 import java.util.Optional;
-
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -62,6 +78,7 @@ public class StackApplication extends Application {
     public void setPeekActive(boolean x){ this.peekActive = x; }
     private Button lastButtonPressed = new Button();
     void setRandom(boolean x){this.pressedRandom = x;}
+    public void setStatusMessage(String label){ this.statusMessage.setText(label); }
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -106,6 +123,7 @@ public class StackApplication extends Application {
             try{
                 int fieldValue = Integer.parseInt(field.getText());
                 if(!stack.isFull()){
+                    statusMessage.setText("Status Message: Pushed " + fieldValue);
                     lastButtonPressed.setText(pushbutton.getText());
                     field.clear();
                     stack.push(fieldValue);
@@ -118,6 +136,7 @@ public class StackApplication extends Application {
         });
 
         peekbutton.setOnAction(event ->{
+            statusMessage.setText("Status Message: Pressed Peek ");
             addData(peekbutton.getText());
             lastButtonPressed.setText(peekbutton.getText());
             stack.peek();
@@ -127,12 +146,14 @@ public class StackApplication extends Application {
         });
         
         checkButton.setOnAction(event ->{
+            statusMessage.setText("Status Message: Pressed Check ");
             addData(clearbutton.getText());
             lastButtonPressed.setText(checkButton.getText());
             isCheckPressed();
         });
 
         capacityButton.setOnAction(event -> {
+            statusMessage.setText("Status Message: Pressed Capacity ");
             addData(capacityButton.getText());
             lastButtonPressed.setText(capacityButton.getText());
             isClearPressed();
@@ -144,6 +165,7 @@ public class StackApplication extends Application {
             checkStack();
             if(!stack.isEmpty()){
                 int num = stack.pop();
+                statusMessage.setText("Status Message: Popped " + num);
                 addData(popbutton.getText(), num, stack);
             }
             refreshStackDisplay();
@@ -152,6 +174,7 @@ public class StackApplication extends Application {
         randombutton.setOnAction(event ->{
             int size = stack.getSize();
             isClearPressed();
+            statusMessage.setText("Status Message: Pressed Random ");
 
             for (int i = 0; i < size; i++) {
                 int randomNum = (int)(Math.random() * 101); // 0 to 100
@@ -164,12 +187,14 @@ public class StackApplication extends Application {
         });
 
         clearbutton.setOnAction(event ->{
+            statusMessage.setText("Status Message: Pressed Clear ");
             addData(clearbutton.getText());
             lastButtonPressed.setText(clearbutton.getText());
             isClearPressed();
         });
 
         undo.setOnAction(event -> {
+            statusMessage.setText("Status Message: Undid " + lastButtonPressed.getText() + " function");
             addData(undo.getText());
             stack.undoOperation(lastButtonPressed, this);
             refreshStackDisplay();
@@ -189,6 +214,8 @@ public class StackApplication extends Application {
         BorderPane rightPanel = new BorderPane();
         Label rpTitle = new Label("Operation History");
         statusMessage = new Label("Status Message: Waiting for inputs...");
+        statusMessage.getStyleClass().add("status-message");
+        statusMessage.setWrapText(true);
         TableView<dataTable> stackTable = new TableView<>();
 
         TableColumn<dataTable, String> operationColumn = new TableColumn<>("Operation");
@@ -295,11 +322,9 @@ public class StackApplication extends Application {
     public void addData(String operation, int value, Stack stack){
         data.add(new dataTable(operation, value, stack));
     }
-
     public void addData(String operation, int value){
         data.add(new dataTable(operation, value));
     }
-
     public void addData(String operation){
         data.add(new dataTable(operation));
     }
