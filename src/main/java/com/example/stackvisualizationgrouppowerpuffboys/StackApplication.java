@@ -23,13 +23,13 @@ import javafx.stage.Stage;
 public class StackApplication extends Application {
     public static class dataTable{
         String operation;
-        int value;
+        Integer value;
         String stack;
 
-        public dataTable(String operation, int value, String stack){
+        public dataTable(String operation, int value, Stack stack){
             this.operation = operation;
             this.value = value;
-            this.stack = stack;
+            this.stack = stack.toString();
         }
 
         public dataTable(String operation, int value){
@@ -37,25 +37,21 @@ public class StackApplication extends Application {
             this.value = value;
         }
 
+        public dataTable(String operation){
+            this.operation = operation;
+            this.value = null;
+        }
+
         public String getOperation(){
             return this.operation;
         }
-        public int getValue(){
+        public Integer getValue(){
             return this.value;
         }
         public String getStack(){
             return this.stack;
         }
-        
-        public void setOperation(String x){
-            operation = x;
-        }
-        public void setValue(int x){
-            value = x;
-        }
-        public void setStack(String x){
-            stack = x;
-        }
+
     }
     ObservableList<dataTable> data = FXCollections.observableArrayList();
     private Stack stack = new Stack();
@@ -64,10 +60,8 @@ public class StackApplication extends Application {
     private boolean pressedRandom = false;
     private boolean peekActive = false;
     public void setPeekActive(boolean x){ this.peekActive = x; }
-    private Button lastButtonPressed;
+    private Button lastButtonPressed = new Button();
     void setRandom(boolean x){this.pressedRandom = x;}
-    // void setRandom(boolean x){this.setRandom(x);}
-    // ^ the line above this will cause a infinite recursion, so kung mao ni, uncomment nalang if so.
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -107,18 +101,25 @@ public class StackApplication extends Application {
         Label title = new Label("Stacks");
         title.getStyleClass().add("lp-title");
 
+        // Button functions
         pushbutton.setOnAction(event -> {
             try{
                 int fieldValue = Integer.parseInt(field.getText());
-                field.clear();
-                stack.push(fieldValue);
-                addData(pushbutton.getText(),  fieldValue);
+                if(!stack.isFull()){
+                    lastButtonPressed.setText(pushbutton.getText());
+                    field.clear();
+                    stack.push(fieldValue);
+                    addData(pushbutton.getText(), fieldValue, stack);
+                }
                 refreshStackDisplay();
             } catch (NumberFormatException e){
                 System.out.println("Enter a number");
             }
         });
+
         peekbutton.setOnAction(event ->{
+            addData(peekbutton.getText());
+            lastButtonPressed.setText(peekbutton.getText());
             stack.peek();
             peekActive = true;
             refreshStackDisplay();
@@ -126,32 +127,55 @@ public class StackApplication extends Application {
         });
         
         checkButton.setOnAction(event ->{
-         isCheckPressed();
-         
+            addData(clearbutton.getText());
+            lastButtonPressed.setText(checkButton.getText());
+            isCheckPressed();
         });
 
         capacityButton.setOnAction(event -> {
+            addData(capacityButton.getText());
+            lastButtonPressed.setText(capacityButton.getText());
+            isClearPressed();
             capacitySelector();
         });
         
-        //Push, pop, peek, clear, random
         popbutton.setOnAction( event -> {
+            lastButtonPressed.setText(popbutton.getText());
             checkStack();
-            int num = stack.pop();
+            if(!stack.isEmpty()){
+                int num = stack.pop();
+                addData(popbutton.getText(), num, stack);
+            }
             refreshStackDisplay();
         });
+
         randombutton.setOnAction(event ->{
-            pressedRandom = true;
-            refreshStackDisplay(); 
-            pressedRandom = false;
+            int size = stack.getSize();
+            isClearPressed();
+
+            for (int i = 0; i < size; i++) {
+                int randomNum = (int)(Math.random() * 101); // 0 to 100
+                stack.push(randomNum);
+            }
+
+            lastButtonPressed.setText(randombutton.getText());
+            addData(randombutton.getText());
+            refreshStackDisplay();
         });
+
         clearbutton.setOnAction(event ->{
+            addData(clearbutton.getText());
+            lastButtonPressed.setText(clearbutton.getText());
             isClearPressed();
         });
+
         undo.setOnAction(event -> {
-            stack.undoOperation(lastButtonPressed);
+            addData(undo.getText());
+            stack.undoOperation(lastButtonPressed, this);
+            refreshStackDisplay();
         });
-        VBox buttonBox = new VBox(20,field, pushbutton, popbutton, peekbutton, clearbutton, randombutton, checkButton, capacityButton);
+
+        VBox buttonBox = new VBox(20,field, pushbutton, popbutton, peekbutton, clearbutton, randombutton, checkButton, capacityButton, undo);
         buttonBox.setAlignment(Pos.CENTER);
 
         BorderPane leftPanel = new BorderPane();
@@ -164,6 +188,7 @@ public class StackApplication extends Application {
     public BorderPane rightPanel(){
         BorderPane rightPanel = new BorderPane();
         Label rpTitle = new Label("Operation History");
+        statusMessage = new Label("Status Message: Waiting for inputs...");
         TableView<dataTable> stackTable = new TableView<>();
 
         TableColumn<dataTable, String> operationColumn = new TableColumn<>("Operation");
@@ -211,15 +236,7 @@ public class StackApplication extends Application {
             StackPane box = new StackPane();
             Label value;
 
-            if(pressedRandom){
-                value = new Label(
-                        String.valueOf((int)(Math.random() * (100 + 1)))
-                );
-            } else {
-                value = new Label(
-                        String.valueOf(stack.getValue(i))
-                );
-            }
+            value = new Label(String.valueOf(stack.getValue(i)));
             if (peekActive) {
                 if (i == stack.getSize() - 1){
                     box.getStyleClass().add("stack-top");
@@ -232,7 +249,6 @@ public class StackApplication extends Application {
 
             box.getStyleClass().add("stack-box");
             value.getStyleClass().add("stack-value");
-            
 
             stackBox.getChildren().add(box);
         }
@@ -240,14 +256,13 @@ public class StackApplication extends Application {
 
     public void isCheckPressed(){
         if(stack.isEmpty()){
-            statusMessage.setText("The stack is Empty!");
+            statusMessage.setText("Status Message: The stack is Empty!");
         }
         else{
-            statusMessage.setText("The stack is not Empty!");
+            statusMessage.setText("Status Message: The stack is not Empty!");
         }
     }
 
-    // Clear Button
     public void isClearPressed(){
         stackBox.getChildren().clear();
         for(int i = stack.getSize() - 1; i >= 0; i--){
@@ -267,9 +282,9 @@ public class StackApplication extends Application {
             try {
                 int newCapacity = Integer.parseInt(input);
                 if (newCapacity > 0) {
-                    System.out.println("Updating stack capacity to:" + newCapacity);
+                    stack.setCapacity(newCapacity);
                 } else {
-                    System.out.println("Capacity must be greater than 0.");
+                    statusMessage.setText("Status Message: Capacity must be greater than 0.");
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Please enter a valid number.");
@@ -277,8 +292,16 @@ public class StackApplication extends Application {
         });
     }
 
+    public void addData(String operation, int value, Stack stack){
+        data.add(new dataTable(operation, value, stack));
+    }
+
     public void addData(String operation, int value){
         data.add(new dataTable(operation, value));
+    }
+
+    public void addData(String operation){
+        data.add(new dataTable(operation));
     }
     public void checkStack(){
         if(stack.isFull()){ statusMessage.setText("STACK OVERFLOW: Stack is full"); }
