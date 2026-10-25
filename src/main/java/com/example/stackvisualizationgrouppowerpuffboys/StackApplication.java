@@ -42,6 +42,11 @@ public class StackApplication extends Application {
         Integer value;
         String stack;
 
+        public dataTable(String operation, Stack stack){
+        this.operation = operation;
+        this.value = null;
+        this.stack = stack.toString();
+}
         public dataTable(String operation, int value, Stack stack){
             this.operation = operation;
             this.value = value;
@@ -146,58 +151,55 @@ public class StackApplication extends Application {
         });
         
         checkButton.setOnAction(event ->{
-            statusMessage.setText("Status Message: Pressed Check ");
-            addData(clearbutton.getText());
-            lastButtonPressed.setText(checkButton.getText());
-            isCheckPressed();
+        statusMessage.setText("Status Message: Pressed Check ");
+        addData(checkButton.getText());
+        isCheckPressed();
         });
 
         capacityButton.setOnAction(event -> {
-            statusMessage.setText("Status Message: Pressed Capacity ");
-            addData(capacityButton.getText());
-            lastButtonPressed.setText(capacityButton.getText());
-            isClearPressed();
-            capacitySelector();
+        capacitySelector();
         });
         
         popbutton.setOnAction( event -> {
-            lastButtonPressed.setText(popbutton.getText());
-            checkStack();
-            if(!stack.isEmpty()){
-                int num = stack.pop();
-                statusMessage.setText("Status Message: Popped " + num);
-                addData(popbutton.getText(), num, stack);
-            }
-            refreshStackDisplay();
+        checkStack();
+        if(!stack.isEmpty()){
+        lastButtonPressed.setText(popbutton.getText());
+        int num = stack.pop();
+        statusMessage.setText("Status Message: Popped " + num);
+        addData(popbutton.getText(), num, stack);
+        }
+        refreshStackDisplay();
         });
 
         randombutton.setOnAction(event ->{
-            int size = stack.getSize();
-            isClearPressed();
-            statusMessage.setText("Status Message: Pressed Random ");
+        isClearPressed();   // saves the snapshot, then empties the stack
+        statusMessage.setText("Status Message: Pressed Random ");
 
-            for (int i = 0; i < size; i++) {
-                int randomNum = (int)(Math.random() * 101); // 0 to 100
-                stack.push(randomNum);
-            }
+        for (int i = 0; i < stack.getCapacity(); i++) {
+        int randomNum = (int)(Math.random() * 100) + 1;   // 1 to 100
+        stack.push(randomNum);
+        }
 
-            lastButtonPressed.setText(randombutton.getText());
-            addData(randombutton.getText());
-            refreshStackDisplay();
+        lastButtonPressed.setText(randombutton.getText());
+        addData(randombutton.getText(), stack);
+        refreshStackDisplay();
         });
 
         clearbutton.setOnAction(event ->{
-            statusMessage.setText("Status Message: Pressed Clear ");
-            addData(clearbutton.getText());
-            lastButtonPressed.setText(clearbutton.getText());
-            isClearPressed();
+        statusMessage.setText("Status Message: Pressed Clear ");
+        isClearPressed();
+        addData(clearbutton.getText(), stack);
+        lastButtonPressed.setText(clearbutton.getText());
         });
 
         undo.setOnAction(event -> {
-            statusMessage.setText("Status Message: Undid " + lastButtonPressed.getText() + " function");
-            addData(undo.getText());
-            stack.undoOperation(lastButtonPressed, this);
-            refreshStackDisplay();
+        if(lastButtonPressed.getText().isEmpty()){
+        statusMessage.setText("Status Message: Nothing to undo.");
+        return;
+        }
+        stack.undoOperation(lastButtonPressed, this);
+        lastButtonPressed.setText("");
+        refreshStackDisplay();
         });
 
         VBox buttonBox = new VBox(20,field, pushbutton, popbutton, peekbutton, clearbutton, randombutton, checkButton, capacityButton, undo);
@@ -297,12 +299,10 @@ public class StackApplication extends Application {
     }
 
     public void isClearPressed(){
-        stackBox.getChildren().clear();
-        for(int i = stack.getSize() - 1; i >= 0; i--){
-            stack.pop();
-        }
-
-    }
+    stack.saveSnapshot();            // save before destroying
+    stackBox.getChildren().clear();
+    stack.clear();                   // replaces the old pop() loop
+}
 
     public void capacitySelector(){
         TextInputDialog dialog = new TextInputDialog("10"); // Default value
@@ -314,8 +314,15 @@ public class StackApplication extends Application {
         result.ifPresent( input -> {
             try {
                 int newCapacity = Integer.parseInt(input);
+
                 if (newCapacity > 0) {
-                    stack.setCapacity(newCapacity);
+                    stack.saveSnapshot();
+                stack.setCapacity(newCapacity);
+                lastButtonPressed.setText("Capacity");
+                statusMessage.setText("Status Message: Capacity set to " + newCapacity);
+                addData("Capacity", newCapacity, stack);
+                refreshStackDisplay();
+
                 } else {
                     statusMessage.setText("Status Message: Capacity must be greater than 0.");
                 }
@@ -337,5 +344,8 @@ public class StackApplication extends Application {
     public void checkStack(){
         if(stack.isFull()){ statusMessage.setText("STACK OVERFLOW: Stack is full"); }
         if(stack.isEmpty()) {statusMessage.setText("STACK UNDERFLOW: Stack is empty"); }
+    }
+    public void addData(String operation, Stack stack){
+    data.add(new dataTable(operation, stack));
     }
 }

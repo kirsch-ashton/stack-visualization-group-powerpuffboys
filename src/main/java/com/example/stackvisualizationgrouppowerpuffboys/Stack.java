@@ -1,5 +1,7 @@
 package com.example.stackvisualizationgrouppowerpuffboys;
 
+import java.util.Arrays;
+
 /* Description: Handles stack logic, including Push, Pop, and many other functions.
     Programmed by: PowerPuff Boys BSIT 48079 Data Structures and Algorithms
     Last Modified: 10/24/2026
@@ -21,13 +23,22 @@ import javafx.scene.control.Button;
 public class Stack {
     private int capacity = 10;
     private int[] stack = new int[capacity];
-    private int[] backupStack = stack;
     private int top = -1; //Default value kay empty ang stack/array
+
+    // For Undo
+    private int lastPoppedValue;   // for undoing Pop
+    private int[] savedStack;      // snapshot, for undoing Clear / Random / Capacity
+    private int savedTop;
+    private int savedCapacity;
+
+    /* Not Needed Fields
+    private int[] backupStack = stack;
     private int previousPushValue;
-    
-//Add a top value in Stack
+    */
+
+    //Add a top value in Stack
+
     public void push(int value){
-        previousPushValue = value;
         if(isFull()){
             System.out.println("ERROR: Stack is Full");
             return;
@@ -42,7 +53,7 @@ public class Stack {
             System.out.println("ERROR: Stack is Empty");
             return -1;
         }
-
+        lastPoppedValue = stack[top];
         int poppedValue = stack[top];
         top--;
         return poppedValue;
@@ -94,54 +105,85 @@ public class Stack {
     else{stackEmpty = false;}
     return stackEmpty;
     }
-    public void setCapacity(int capacity){
-        this.capacity = capacity;
+
+    public void setCapacity(int newCapacity){
+        stack = Arrays.copyOf(stack, newCapacity);
+        if(top >= newCapacity){
+            top = newCapacity - 1;
+        }
+        capacity = newCapacity;
     }
+    // Methods For Undo
+
+    public void saveSnapshot(){
+        savedStack = Arrays.copyOf(stack, stack.length);
+        savedTop = top;
+        savedCapacity = capacity;
+    }
+
+    public void restoreSnapshot(){
+        stack = Arrays.copyOf(savedStack, savedStack.length);
+        top = savedTop;
+        capacity = savedCapacity;
+    }
+
+    public void clear(){
+    top = -1;
+    }
+
+    public int getCapacity(){
+    return capacity;
+}
+   
     
     public void undoOperation(Button button, StackApplication SA){
         switch(button.getText()){
+
             case "Push":
-                int num = pop();
-                SA.addData(button.getText(), num);
+                if(isEmpty()){
+                    SA.setStatusMessage("Status Message: Nothing to undo. Stack is Empty.");
+                    break;
+                }
+                int removedValue = stack[top];
+                top--;
+                SA.setStatusMessage("Status Message: Undid Push (removed " + removedValue + ")");
+                SA.addData("Undo Push", removedValue, this);
                 break;
 
-            case "Pop":
-                push(previousPushValue);
-                SA.addData(button.getText(), previousPushValue);
+            case "Pop": 
+                if(isFull()){
+                SA.setStatusMessage("Status Message: Cannot undo Pop, stack is full.");
                 break;
+            }
+            top++;
+            stack[top] = lastPoppedValue;
+            SA.setStatusMessage("Status Message: Undid Pop (restored " + lastPoppedValue + ")");
+            SA.addData("Undo Pop", lastPoppedValue, this);
+            break;
 
-            /* Needs to be updated or discussed with the rest
-            case "Peek":
-                peek();
-                SA.addData(button.getText());
-                break;
-
+            // These three cases have a similar result/purpose, so im making them run the same thing
             case "Clear":
-                SA.isClearPressed();
-                SA.addData(button.getText());
-                break;
-
             case "Random":
-                SA.setRandom(true);
-                SA.isClearPressed();
-                SA.setRandom(false);
-                SA.addData(button.getText());
-                break;
-
-            case "Check":
-                SA.checkStack();
-                SA.addData(button.getText());
-                break;*/
-
             case "Capacity":
-                SA.capacitySelector();
-                SA.addData(button.getText());
+            if(savedStack == null){
+                SA.setStatusMessage("Status Message: Nothing to undo.");
                 break;
-            default:
-                SA.setStatusMessage("Status Message: Undo for " + button.getText() + " is not supported.");
-                break;
-        }
+            }
+            restoreSnapshot();
+            SA.setStatusMessage("Status Message: Undid " + button.getText());
+            SA.addData("Undo " + button.getText(), this);
+            break;
+
+            case "Peek":
+            SA.setStatusMessage("Status Message: Undid Peek");
+            SA.addData("Undo Peek");
+            break;
+
+        default:
+            SA.setStatusMessage("Status Message: Undo for " + button.getText() + " is not supported.");
+            break;
     }
+}
 
     @Override
     public String toString() {
