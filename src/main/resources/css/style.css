@@ -29,9 +29,71 @@
 }
 
 .rightPanel {
-    -fx-background-color: #D8A2A2;
+    -fx-background-color: #35d400;
     -fx-pref-width: 350px;
     -fx-pref-height: 200px;
+}
+
+.rp-title {
+    -fx-translate-y: 80px;
+    -fx-font-weight: bold;
+    -fx-font-size: 32px;
+    -fx-font-family: "Serif";
+}
+
+.table-view{
+    -fx-border-color: #64E632;
+    -fx-border-width: 5px;
+}
+
+
+
+.table-view .column-header-background {
+    -fx-pref-height: 40px;
+    -fx-max-height: 40px;
+    -fx-min-height: 40px;
+}
+
+.column-header.operation-header .label {
+    -fx-alignment: CENTER-LEFT;
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+}
+
+.column-header.operation-header {
+    -fx-background-color: #90FF66;
+}
+
+.column-header.value-header {
+    -fx-background-color: #67FF2E;
+}
+
+.column-header.stack-header {
+    -fx-background-color: #90FF66;
+}
+
+.column-header.value-header .label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: #333333;
+    -fx-font-size: 16px;
+}
+
+.column-header.stack-header .label {
+    -fx-alignment: CENTER;
+    -fx-font-size: 16px;
+}
+
+.table-cell {
+    -fx-alignment: CENTER-LEFT;
+    -fx-text-fill: #333333;
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-size: 14px;
+    -fx-padding: 5px 10px;
+    -fx-wrap-text: true;
+}
+
+.table-row-cell:empty {
+    -fx-background-color: transparent;
 }
 
 .status-message{
@@ -52,7 +114,7 @@
     -fx-text-fill: white;
     -fx-font-size: 14px;
     -fx-padding: 10px 20px;
-    -fx-pref-width: 130px;
+    -fx-pref-width: 140px;
     -fx-alignment: center;
     -fx-font-weight: bold;
     -fx-font-family: "Segoe UI";
@@ -80,10 +142,22 @@
     -fx-max-height: 55px;
 }
 
+.stack-top {
+    -fx-background-color: #B93636;
+}
+
+.stack-below {
+    -fx-background-color: #BA5F5F;
+}
+
 .stack-value {
     -fx-font-size: 18px;
     -fx-font-weight: bold;
     -fx-text-fill: black;
+}
+
+.stack-peek-value {
+    -fx-text-fill: #464646;
 }
 
 .status-message-container {
