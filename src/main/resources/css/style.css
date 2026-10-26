@@ -1,7 +1,7 @@
 
 /* Description: Defines the appearance and styling of the GUI panels, buttons, and stack elements.
     Programmed by: PowerPuff Boys BSIT 48079 Data Structures and Algorithms
-    Last Modified: 10/24/2026
+    Last Modified: 10/26/2026
     [Acknowledgements:
     https://jenkov.com/tutorials/javafx/index.html
     https://dev.java/learn/javafx/core/layout/
@@ -10,14 +10,16 @@
 
         ChatGPT:
         "List all possible JavaFX css properties"
-        Answered: Listed commonly used css properties
+        Answered: Listed commonly used css properties and what JavaFX components usually have
 
     ]
  */
 
+/* ===== Panels, Buttons, and TextField ===== */
+
 .leftPanel {
     -fx-background-color: #76C0EC;
-    -fx-pref-width: 350px;
+    -fx-pref-width: 450px;
     -fx-pref-height: 200px;
 }
 
@@ -30,7 +32,7 @@
 
 .rightPanel {
     -fx-background-color: #35d400;
-    -fx-pref-width: 350px;
+    -fx-pref-width: 450px;
     -fx-pref-height: 200px;
 }
 
@@ -41,12 +43,53 @@
     -fx-font-family: "Serif";
 }
 
-.table-view{
-    -fx-border-color: #64E632;
-    -fx-border-width: 5px;
+.text-field {
+    -fx-max-width: 150px;
+    -fx-pref-height: 36px;
+    -fx-alignment: center;
+    -fx-font-size: 14px;
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-text-fill: #1F2937;
+    -fx-background-color: white;
+    -fx-background-insets: 0;
+    -fx-background-radius: 6px;
+    -fx-border-color: #D0D7DE;
+    -fx-border-width: 1px;
+    -fx-border-radius: 6px;
 }
 
+.button {
+    -fx-background-color: #65D0F4;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 10px 20px;
+    -fx-pref-width: 140px;
+    -fx-alignment: center;
+    -fx-font-weight: bold;
+    -fx-font-family: "Segoe UI";
+    -fx-background-radius: 8px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.30), 8, 0.2, 0, 3);
+}
 
+.button:hover {
+    -fx-background-color: #0074a6;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.40), 12, 0.2, 0, 4);
+}
+
+.button:pressed {
+    -fx-background-color: #D96868;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.20), 3, 0.1, 0, 1);
+}
+
+/* ===== TABLE VIEW ===== */
+
+.table-view{
+    -fx-background-radius: 5px;
+    -fx-border-color: #64E632;
+    -fx-border-width: 5px;
+    -fx-border-radius: 5px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.30), 12, 0.2, 0, 4);
+}
 
 .table-view .column-header-background {
     -fx-pref-height: 40px;
@@ -90,10 +133,15 @@
     -fx-font-size: 14px;
     -fx-padding: 5px 10px;
     -fx-wrap-text: true;
+    -fx-text-overrun: clip;
 }
 
 .table-row-cell:empty {
     -fx-background-color: transparent;
+}
+
+.table-row-cell {
+    -fx-cell-size: -1;
 }
 
 .status-message{
@@ -102,48 +150,33 @@
 }
 
 .centerPanel {
-    -fx-background-color: lightgray;
+    -fx-background-color: #FFEDF3;
 }
 
-.text-field {
-    -fx-max-width: 150px;
-}
-
-.button {
-    -fx-background-color: #65D0F4;
-    -fx-text-fill: white;
-    -fx-font-size: 14px;
-    -fx-padding: 10px 20px;
-    -fx-pref-width: 140px;
-    -fx-alignment: center;
-    -fx-font-weight: bold;
-    -fx-font-family: "Segoe UI";
-}
-
-.button:hover {
-    -fx-background-color: #F29191;
-}
-
-.button:pressed {
-    -fx-background-color: #D96868;
-}
+/* ===== Stack ===== */
 
 .stack-box {
-    -fx-background-color: #B93636;
+    -fx-background-color: #FF0353;
     -fx-background-radius: 8px;
+    -fx-text-fill: #4D0015;
 
     -fx-border-color: black;
     -fx-border-width: 1px;
     -fx-border-radius: 8px;
 
-    -fx-min-width: 150px;
-    -fx-max-width: 150px;
+    -fx-min-width: 250px;
+    -fx-pref-width: 250px;
+    -fx-max-width: 250px;
+
     -fx-min-height: 55px;
+    -fx-pref-height: 55px;
     -fx-max-height: 55px;
+
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.35), 8, 0.2, 0, 3);
 }
 
 .stack-top {
-    -fx-background-color: #B93636;
+    -fx-background-color: #FF0353;
 }
 
 .stack-below {
@@ -165,6 +198,3 @@
     -fx-min-height: 100px;
 }
 
-.table-row-cell {
-    -fx-cell-size: 40px;
-}
