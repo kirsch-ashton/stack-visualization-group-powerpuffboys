@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 /* Description: Handles stack logic, including Push, Pop, and many other functions.
     Programmed by: PowerPuff Boys BSIT 48079 Data Structures and Algorithms
-    Last Modified: 10/24/2026
+    Last Modified: 10/26/2026
     [Acknowledgements:
     https://jenkov.com/tutorials/javafx/index.html
     https://dev.java/learn/javafx/core/layout/
@@ -15,6 +15,10 @@ import java.util.Arrays;
         "How can I make the Stack column in my TableView display the actual stack values instead of com.example...?"
         Answered:
         Suggested to use StringBuilder
+
+        "Our current idea to make a second stack or a copy of another stack is to use an auxiliary process. What better ways we should approach for our UndoOperation, specificically after user sets a new capacity/clear/random and expect the undo button to revert it to the original stack values?
+        Answered:
+        Suggested to use java.util.Arrays and introduced us to save and restoreSnapshots methods and how it works
     ]
  */
 
@@ -144,44 +148,42 @@ public class Stack {
                     SA.setStatusMessage("Status Message: Nothing to undo. Stack is Empty.");
                     break;
                 }
-                int removedValue = stack[top];
-                top--;
-                SA.setStatusMessage("Status Message: Undid Push (removed " + removedValue + ")");
-                SA.addData("Undo Push", removedValue, this);
+                int poppedValue = pop();
+                SA.setStatusMessage("Status Message: Undid Push (removed " + poppedValue + ")");
+                SA.addData("Undo Push", poppedValue, this);
                 break;
 
             case "Pop": 
                 if(isFull()){
-                SA.setStatusMessage("Status Message: Cannot undo Pop, stack is full.");
+                    SA.setStatusMessage("Status Message: Cannot undo Pop, stack is full.");
+                    break;
+                }
+                push(lastPoppedValue);
+                SA.setStatusMessage("Status Message: Undid Pop (restored " + lastPoppedValue + ")");
+                SA.addData("Undo Pop", lastPoppedValue, this);
                 break;
-            }
-            top++;
-            stack[top] = lastPoppedValue;
-            SA.setStatusMessage("Status Message: Undid Pop (restored " + lastPoppedValue + ")");
-            SA.addData("Undo Pop", lastPoppedValue, this);
-            break;
 
             // These three cases have a similar result/purpose, so im making them run the same thing
             case "Clear":
             case "Random":
             case "Capacity":
-            if(savedStack == null){
-                SA.setStatusMessage("Status Message: Nothing to undo.");
+                if(savedStack == null){
+                    SA.setStatusMessage("Status Message: Nothing to undo.");
+                    break;
+                }
+                restoreSnapshot();
+                SA.setStatusMessage("Status Message: Undid " + button.getText());
+                SA.addData("Undo " + button.getText(), this);
                 break;
-            }
-            restoreSnapshot();
-            SA.setStatusMessage("Status Message: Undid " + button.getText());
-            SA.addData("Undo " + button.getText(), this);
-            break;
 
             case "Peek":
-            SA.setStatusMessage("Status Message: Undid Peek");
-            SA.addData("Undo Peek");
-            break;
+                SA.setStatusMessage("Status Message: Undid Peek");
+                SA.addData("Undo Peek");
+                break;
 
-        default:
-            SA.setStatusMessage("Status Message: Undo for " + button.getText() + " is not supported.");
-            break;
+            default:
+                SA.setStatusMessage("Status Message: Undo for " + button.getText() + " is not supported.");
+                break;
     }
 }
 

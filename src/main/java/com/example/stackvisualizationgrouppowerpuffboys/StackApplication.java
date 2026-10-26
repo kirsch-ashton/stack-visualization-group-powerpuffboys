@@ -2,7 +2,7 @@ package com.example.stackvisualizationgrouppowerpuffboys;
 
 /* Description: Handles the JavaFX GUI, button events, stack visualization, operation history, and status messages.
     Programmed by: PowerPuff Boys BSIT 48079 Data Structures and Algorithms
-    Last Modified: 10/24/2026
+    Last Modified: 10/26/2026
     [Acknowledgements:
     https://jenkov.com/tutorials/javafx/index.html
     https://dev.java/learn/javafx/core/layout/
@@ -91,18 +91,16 @@ public class StackApplication extends Application {
         BorderPane rightPanel = rightPanel();
         BorderPane centerPanel = centerPanel();
 
-        // Adds class name to use and modify properties in style.css
         leftPanel.getStyleClass().add("leftPanel");
         rightPanel.getStyleClass().add("rightPanel");
         centerPanel.getStyleClass().add("centerPanel");
 
-        // comment
         BorderPane root = new BorderPane();
         root.setLeft(leftPanel);
         root.setCenter(centerPanel);
         root.setRight(rightPanel);
 
-        Scene scene = new Scene(root, 900, 700);
+        Scene scene = new Scene(root, 1400, 800);
         scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
 
         stage.setTitle("Stack Visualization");
@@ -112,6 +110,7 @@ public class StackApplication extends Application {
 
     public BorderPane leftPanel(){
         TextField field = new TextField();
+        field.setPromptText("Enter Stack Value");
         Button pushbutton = new Button("Push");
         Button popbutton = new Button("Pop");
         Button peekbutton = new Button("Peek");
@@ -151,55 +150,55 @@ public class StackApplication extends Application {
         });
         
         checkButton.setOnAction(event ->{
-        statusMessage.setText("Status Message: Pressed Check ");
-        addData(checkButton.getText());
-        isCheckPressed();
+            statusMessage.setText("Status Message: Pressed Check ");
+            addData(checkButton.getText());
+            isCheckPressed();
         });
 
         capacityButton.setOnAction(event -> {
-        capacitySelector();
+            capacitySelector();
         });
         
         popbutton.setOnAction( event -> {
-        checkStack();
-        if(!stack.isEmpty()){
-        lastButtonPressed.setText(popbutton.getText());
-        int num = stack.pop();
-        statusMessage.setText("Status Message: Popped " + num);
-        addData(popbutton.getText(), num, stack);
-        }
-        refreshStackDisplay();
+            checkStack();
+            if(!stack.isEmpty()){
+                lastButtonPressed.setText(popbutton.getText());
+                int num = stack.pop();
+                statusMessage.setText("Status Message: Popped " + num);
+                addData(popbutton.getText(), num, stack);
+            }
+            refreshStackDisplay();
         });
 
         randombutton.setOnAction(event ->{
-        isClearPressed();   // saves the snapshot, then empties the stack
-        statusMessage.setText("Status Message: Pressed Random ");
+            isClearPressed();   // saves the snapshot, then empties the stack
+            statusMessage.setText("Status Message: Pressed Random ");
 
-        for (int i = 0; i < stack.getCapacity(); i++) {
-        int randomNum = (int)(Math.random() * 100) + 1;   // 1 to 100
-        stack.push(randomNum);
-        }
+            for (int i = 0; i < stack.getCapacity(); i++) {
+                int randomNum = (int)(Math.random() * 100) + 1;   // 1 to 100
+                stack.push(randomNum);
+            }
 
-        lastButtonPressed.setText(randombutton.getText());
-        addData(randombutton.getText(), stack);
-        refreshStackDisplay();
-        });
+            lastButtonPressed.setText(randombutton.getText());
+            addData(randombutton.getText(), stack);
+            refreshStackDisplay();
+            });
 
-        clearbutton.setOnAction(event ->{
-        statusMessage.setText("Status Message: Pressed Clear ");
-        isClearPressed();
-        addData(clearbutton.getText(), stack);
-        lastButtonPressed.setText(clearbutton.getText());
+            clearbutton.setOnAction(event ->{
+            statusMessage.setText("Status Message: Pressed Clear ");
+            isClearPressed();
+            addData(clearbutton.getText(), stack);
+            lastButtonPressed.setText(clearbutton.getText());
         });
 
         undo.setOnAction(event -> {
-        if(lastButtonPressed.getText().isEmpty()){
-        statusMessage.setText("Status Message: Nothing to undo.");
-        return;
-        }
-        stack.undoOperation(lastButtonPressed, this);
-        lastButtonPressed.setText("");
-        refreshStackDisplay();
+            if(lastButtonPressed.getText().isEmpty()){
+                statusMessage.setText("Status Message: Nothing to undo.");
+                return;
+            }
+            stack.undoOperation(lastButtonPressed, this);
+            lastButtonPressed.setText("");
+            refreshStackDisplay();
         });
 
         VBox buttonBox = new VBox(20,field, pushbutton, popbutton, peekbutton, clearbutton, randombutton, checkButton, capacityButton, undo);
@@ -234,12 +233,16 @@ public class StackApplication extends Application {
         stackColumn.setCellValueFactory(new PropertyValueFactory<>("stack"));
         stackColumn.getStyleClass().add("stack-header");
 
+        operationColumn.setPrefWidth(100);
+        valueColumn.setPrefWidth(60);
+        stackColumn.setPrefWidth(190);
+
         stackTable.getColumns().add(operationColumn);
         stackTable.getColumns().add(valueColumn);
         stackTable.getColumns().add(stackColumn);
-        stackTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
+        stackTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
         stackTable.setItems(data);
-        stackTable.setMaxWidth(300);
+        stackTable.setMaxWidth(350);
         stackTable.setMaxHeight(500);
 
         rightPanel.setCenter(stackTable);
@@ -254,12 +257,9 @@ public class StackApplication extends Application {
 
     public BorderPane centerPanel(){
         BorderPane centerPanel = new BorderPane();
-        Label title = new Label("Stack");
         stackBox.setAlignment(Pos.CENTER);
 
-        centerPanel.setTop(title);
         centerPanel.setCenter(stackBox);
-
         return centerPanel;
     }
 
@@ -268,9 +268,7 @@ public class StackApplication extends Application {
 
         for (int i = stack.getSize() - 1; i >= 0; i--) {
             StackPane box = new StackPane();
-            Label value;
-
-            value = new Label(String.valueOf(stack.getValue(i)));
+            Label value = new Label(String.valueOf(stack.getValue(i)));
             if (peekActive) {
                 if (i == stack.getSize() - 1){
                     box.getStyleClass().add("stack-top");
@@ -299,10 +297,10 @@ public class StackApplication extends Application {
     }
 
     public void isClearPressed(){
-    stack.saveSnapshot();            // save before destroying
-    stackBox.getChildren().clear();
-    stack.clear();                   // replaces the old pop() loop
-}
+        stack.saveSnapshot();            // save before destroying
+        stackBox.getChildren().clear();
+        stack.clear();                   // replaces the old pop() loop
+    }
 
     public void capacitySelector(){
         TextInputDialog dialog = new TextInputDialog("10"); // Default value
@@ -334,9 +332,6 @@ public class StackApplication extends Application {
 
     public void addData(String operation, int value, Stack stack){
         data.add(new dataTable(operation, value, stack));
-    }
-    public void addData(String operation, int value){
-        data.add(new dataTable(operation, value));
     }
     public void addData(String operation){
         data.add(new dataTable(operation));
