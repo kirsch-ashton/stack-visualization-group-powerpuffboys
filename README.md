@@ -12,6 +12,7 @@
 3. Chatto, Jhyril Kish
 4. Baladec, Thayan Ryan
 5. Gulle, Kurt Dwayne
+6. Oloroso, Zyrell Kent
 
 ## Description of the Program
 Stack Visualization is a Java-based desktop application developed using JavaFX. It demonstrates how a stack data structure works by allowing users to perform stack operations and view the changes through a graphical interface.
